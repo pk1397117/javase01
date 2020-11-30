@@ -2,6 +2,7 @@ package day02;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -14,7 +15,7 @@ public class Test02 {
 
         Runnable r1 = () -> {
             while (true) {
-                bankCard.saveMoney(Math.random()*100);
+                bankCard.saveMoney(Math.random() * 100);
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
@@ -24,7 +25,7 @@ public class Test02 {
         };
         Runnable r2 = () -> {
             while (true) {
-                bankCard.withdrawMoney(Math.random()*100);
+                bankCard.withdrawMoney(Math.random() * 100);
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
@@ -36,8 +37,19 @@ public class Test02 {
         Thread withdraw = new Thread(r2);
         save.start();
         withdraw.start();
-
-
+        int x = 0;
+        int y = 0;
+        int k = 0;
+        for (int z = 0; z < 5; z++) {
+            if ((++x > 2) && (++y > 2) && (k++ > 2))
+            {
+                x++;
+                ++y;
+                k++;
+            }
+        }
+        System.out.println(x + "" +y + "" +k);
     }
+
 
 }

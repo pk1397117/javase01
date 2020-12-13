@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="jars">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../Java_Tools/.m2/repository/junit/junit/4.12/junit-4.12.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Java_Tools/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Java_Tools/.m2/repository/org/jsoup/jsoup/1.13.1/jsoup-1.13.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Java_Tools/.m2/repository/junit/junit/4.13/junit-4.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Java_Tools/.m2/repository/org/jsoup/jsoup/1.11.3/jsoup-1.11.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Java_Tools/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

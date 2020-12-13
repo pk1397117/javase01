@@ -1,8 +1,8 @@
 package day01;
 
 
+import org.jsoup.Jsoup;
 import org.junit.Test;
-
 
 import javax.swing.text.html.parser.Entity;
 import java.awt.geom.Point2D;
@@ -12,6 +12,7 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -58,6 +59,7 @@ public class Test02 {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
     }
 
     /**
@@ -113,7 +115,7 @@ public class Test02 {
     public void test05() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("F:/zzz/label.dat"));
              ObjectInputStream in = new ObjectInputStream(new FileInputStream("F:/zzz/label.dat"))
-        ){
+        ) {
             LabeledPoint game = new LabeledPoint("game", new Point2D.Double(3, 4));
             out.writeObject(game);
             System.out.println(in.readObject());
@@ -130,10 +132,10 @@ public class Test02 {
      * java.util.Date 中也添加了 readObject 和 writeObject 签名的方法
      */
     @Test
-    public void test06(){
+    public void test06() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("F:/zzz/date01.dat"));
              ObjectInputStream in = new ObjectInputStream(new FileInputStream("F:/zzz/date01.dat"));
-        ){
+        ) {
             Date date = new Date();
             out.writeObject(date);
             System.out.println(in.readObject());
@@ -145,20 +147,80 @@ public class Test02 {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 模拟浏览器http请求
+     */
     @Test
-    public void test07(){
+    public void test07() {
         try {
             HttpClient httpClient = HttpClient.newHttpClient();
             HttpRequest httpRequest = HttpRequest.newBuilder(new URI("http://www.baidu.com")).GET().build();
             HttpResponse.BodyHandler<String> stringBodyHandler = HttpResponse.BodyHandlers.ofString();
             HttpResponse<String> send = httpClient.send(httpRequest, stringBodyHandler);
             System.out.println(send.body());
-
+            System.out.println(Jsoup.parse(send.body()).select("title").text());
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void test08() {
+        class Staff implements Serializable {
+            //private static final long serialVersionUID = -4890795920968760343L;
+            private String name;
+            private double galaxy;
+            private LocalDate hireDay;
+
+            public Staff() {
+            }
+
+            public Staff(String name, double galaxy, LocalDate hireDay) {
+                this.name = name;
+                this.galaxy = galaxy;
+                this.hireDay = hireDay;
+            }
+
+
+            private void writeObject(ObjectOutputStream out) throws IOException {
+                out.writeUTF(name);
+                out.writeDouble(galaxy);
+                out.writeLong(hireDay.toEpochDay());
+            }
+
+
+            private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+                this.name = in.readUTF();
+                this.galaxy = in.readDouble();
+                this.hireDay = LocalDate.ofEpochDay(in.readLong());
+            }
+
+            @Override
+            public String toString() {
+                return "Staff{" +
+                        "name='" + name + '\'' +
+                        ", galaxy=" + galaxy +
+                        ", hireDay=" + hireDay +
+                        '}';
+            }
+        }
+        try (var out = new ObjectOutputStream(new FileOutputStream("F:/zzz/staff.txt"));
+             var in = new ObjectInputStream(new FileInputStream("F:/zzz/staff.txt"))
+        ) {
+            Staff zhangsan = new Staff("张三", 5000, LocalDate.of(2008, 5, 20));
+            out.writeObject(zhangsan);
+            Staff lisi = (Staff) in.readObject();
+            System.out.println(lisi);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

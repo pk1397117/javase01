@@ -2,7 +2,7 @@ package day01;
 
 import java.io.Serializable;
 
-public class Employee implements Serializable {
+public class Employee extends SerialCloneable {
 
     private static final long serialVersionUID = 6944187850785615121L;
     private String name;
